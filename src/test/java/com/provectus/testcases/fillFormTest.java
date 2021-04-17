@@ -40,9 +40,9 @@ public class fillFormTest extends CommonMethods {
         String day = DOB[1];
         String year = DOB[2];
 
-        //click(formsPage.dateOfBirthBox);
+        click(formsPage.dateOfBirthBox);
 
-        //calendarHandling(formsPage.monthDD, formsPage.yearDD, month, year, day, formsPage.weeksAndDays);
+        calendarHandling(formsPage.monthDD, formsPage.yearDD, month, year, day, formsPage.weeksAndDays);
 
 
         String subjects = studentInfo("subjects");
@@ -77,6 +77,7 @@ public class fillFormTest extends CommonMethods {
         sendText(formsPage.city, studentInfo("city"));
         formsPage.city.sendKeys(Keys.ENTER);
 
+        waitForClickability(formsPage.submitButton);
         jsClick(formsPage.submitButton);
 
         formsPage.message.isDisplayed();

@@ -45,7 +45,7 @@ public class FormsPage extends CommonMethods {
     @FindBy(xpath = "//select[@class='react-datepicker__year-select']")
     public WebElement yearDD;
 
-    @FindBy(xpath = "//div[@class='react-datepicker__week']")
+    @FindBy(xpath = "//div[@class='react-datepicker__month']/div/div")
     public List<WebElement> weeksAndDays;
 
     @FindBy(xpath = "//input[@id='hobbies-checkbox-1']")
@@ -77,6 +77,23 @@ public class FormsPage extends CommonMethods {
 
     @FindBy(xpath = "//div[@id='example-modal-sizes-title-lg']")
     public WebElement message;
+
+    public boolean isElementExists(String xpathOfElement) {
+        return driver.findElements(By.xpath(xpathOfElement)).size() > 0;
+    }
+
+    public boolean waitForElement(int timeInSeconds, String xpathOfElement) {
+        try {
+            for (int i = 0; i < timeInSeconds; i++) {
+                if (isElementExists(xpathOfElement))
+                    return true;
+                Thread.sleep(1000);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
     public FormsPage() {
         PageFactory.initElements(driver, this);
