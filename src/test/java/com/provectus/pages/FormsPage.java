@@ -30,6 +30,12 @@ public class FormsPage extends CommonMethods {
     @FindBy(xpath = "//input[@id='gender-radio-2']")
     public WebElement femaleGender;
 
+    @FindBy (xpath = "//label[@for='gender-radio-1']")
+    public WebElement genderLabel;
+
+    @FindBy(xpath = "//div[@class='custom-control custom-radio custom-control-inline']/input")
+    public List<WebElement> genderButtons;
+
     @FindBy(xpath = "//input[@id='gender-radio-2']")
     public WebElement otherGender;
 

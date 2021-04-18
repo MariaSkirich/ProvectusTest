@@ -2,13 +2,8 @@ package com.provectus.testcases;
 
 import com.provectus.pages.FormsPage;
 import com.provectus.utils.CommonMethods;
-import com.provectus.utils.ConfigsReader;
-import com.provectus.utils.Constants;
-import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class fillFormTest extends CommonMethods {
@@ -24,13 +19,8 @@ public class fillFormTest extends CommonMethods {
         sendText(formsPage.userEmailBox, studentInfo("email"));
 
         String gender = studentInfo("gender");
-        if (gender.equalsIgnoreCase("Female")) {
-            jsClick(formsPage.femaleGender);
-        } else if (gender.equalsIgnoreCase("Male")) {
-            jsClick(formsPage.maleGender);
-        } else {
-            jsClick(formsPage.otherGender);
-        }
+
+        radioButtonsClick(formsPage.genderButtons, "value", gender);
 
         sendText(formsPage.phoneNumber, studentInfo("mobile"));
 
@@ -43,7 +33,6 @@ public class fillFormTest extends CommonMethods {
         click(formsPage.dateOfBirthBox);
 
         calendarHandling(formsPage.monthDD, formsPage.yearDD, month, year, day, formsPage.weeksAndDays);
-
 
         String subjects = studentInfo("subjects");
         String[] sub = subjects.split(", ");
@@ -67,20 +56,48 @@ public class fillFormTest extends CommonMethods {
             jsClick(formsPage.sportsHobby);
         }
 
-        formsPage.uploadPicture.sendKeys("C:\\Users\\Masha\\Desktop\\james.jpg");
-
         sendText(formsPage.textArea, studentInfo("currentAddress"));
 
-        //the same problem with autocomplete
         sendText(formsPage.state, studentInfo("state"));
         formsPage.state.sendKeys(Keys.ENTER);
         sendText(formsPage.city, studentInfo("city"));
         formsPage.city.sendKeys(Keys.ENTER);
 
-        waitForClickability(formsPage.submitButton);
         jsClick(formsPage.submitButton);
 
         formsPage.message.isDisplayed();
+
+    }
+
+    @Test (groups = "smoke")
+    public void fillEmptyForm() throws InterruptedException {
+        FormsPage formsPage = new FormsPage();
+        locatingElement(formsPage.forms);
+        clickingOnSVG(formsPage.forms);
+        click(formsPage.practiceForm);
+
+        jsClick(formsPage.submitButton);
+
+        getWait();
+
+        locatingElement(formsPage.firstNameBox);
+
+        Thread.sleep(2000);
+
+        String expectedColorCode="rgb(220, 53, 69)";
+
+        String colorCodeFN=formsPage.firstNameBox.getCssValue("border-color");
+
+        Assert.assertEquals(colorCodeFN, expectedColorCode);
+
+        String colorCodeLN=formsPage.lastNameBox.getCssValue("border-color");
+
+        Assert.assertEquals(colorCodeLN, expectedColorCode);
+
+        String colorCodeG="rgba(220, 53, 69, 1)";
+
+        String colorCodeGender=formsPage.genderLabel.getCssValue("color");
+        Assert.assertEquals(colorCodeGender, colorCodeG);
 
     }
 

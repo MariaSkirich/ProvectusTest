@@ -9,7 +9,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -158,28 +157,6 @@ public class CommonMethods {
         }
     }
 
-    /**
-     * This method will select a value from the given dropdown by the given
-     * visible text
-     *
-     * @param dd
-     * @param visibleText
-     */
-    public static void selectDDValue(WebElement dd, String visibleText) {
-        try {
-            Select select = new Select(dd);
-            List<WebElement> options = select.getOptions();
-            for (WebElement option : options) {
-                if (option.getText().equals(visibleText)) {
-                    select.selectByVisibleText(visibleText);
-                    break;
-                }
-            }
-        } catch (UnexpectedTagNameException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     /**
      * This method allows to pick the date from the calendar based on the passed parameters.
@@ -206,6 +183,13 @@ public class CommonMethods {
     }
 
 
+    public static void radioButtonsClick(List<WebElement> elements, String value, String expectedStr){
+        for(WebElement element:elements){
+            if(element.getAttribute(value).equalsIgnoreCase(expectedStr)){
+                jsClick(element);
+            }
+        }
+    }
 
 
 }
